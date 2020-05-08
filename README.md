@@ -1,6 +1,13 @@
 # ExTectonicdb
 
-**TODO: Add description**
+![Elixir Test](https://github.com/yurikoval/ex_tectonicdb/workflows/Test/badge.svg)
+
+[TectonicDB](https://github.com/0b01/tectonicdb) client library for Elixir to read/write L2 order book data
+
+Documentation:
+
+* [ex_tectonicdb](https://hexdocs.pm/ex_tectonicdb)
+* [TectonicDB](https://docs.rs/crate/tectonicdb)
 
 ## Examples
 
@@ -38,10 +45,6 @@ def deps do
   ]
 end
 ```
-
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at [https://hexdocs.pm/ex_tectonicdb](https://hexdocs.pm/ex_tectonicdb).
 
 ## Authors
 
