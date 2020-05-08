@@ -8,3 +8,5 @@ erl_crash.dump
 *.beam
 /config/*.secret.exs
 .elixir_ls/
+# Ignore package tarball (built via "mix hex.build").
+ex_tectonicdb-*.tar
