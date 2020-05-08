@@ -1,18 +1,5 @@
 defmodule ExTectonicdb do
   @moduledoc """
-  Documentation for `ExTectonicdb`.
+  TectonicDB Client for Elixir
   """
-
-  @doc """
-  Hello world.
-
-  ## Examples
-
-      iex> ExTectonicdb.hello()
-      :world
-
-  """
-  def hello do
-    :world
-  end
 end
