@@ -46,6 +46,13 @@ def deps do
 end
 ```
 
+## Development / Test
+
+To run tests, you must have `tectonicdb` running for tests to work. This can be done either by starting tectonicdb on port `9001` manually or running docker compose:
+
+- `docker-compose up`
+- Then, run the tests with `mix test`
+
 ## Authors
 
 * Yuri Koval'ov - hello@yurikoval.com

@@ -1,0 +1,11 @@
+version: '3'
+services:
+  tectonicdb:
+    image: "yurikoval/tectonicdb"
+    ports:
+      - "9001:9001"
+    restart: on-failure
+    environment:
+      - TDB_LOG_FILE_NAME=/dev/null
+      - TDB_DTF_FOLDER=/export/db
+    command: /usr/local/bin/tdb-server -vv
