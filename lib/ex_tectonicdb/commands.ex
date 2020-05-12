@@ -11,6 +11,23 @@ defmodule ExTectonicdb.Commands do
   # Public API
 
   @doc """
+  `PING`
+
+  Examples:
+
+  iex> {:ok, conn} = ExTectonicdb.Connection.start_link()
+  iex> ExTectonicdb.Commands.ping(conn)
+  {:ok, :pong}
+  """
+  @spec ping(connection) :: {:ok, :pong} | {:error, any}
+  def ping(conn) do
+    case C.send_message(conn, "PING") do
+      {:ok, "PONG" <> _} -> {:ok, :pong}
+      e -> e
+    end
+  end
+
+  @doc """
   Switch databases
 
   Examples:
