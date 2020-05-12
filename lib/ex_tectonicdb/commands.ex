@@ -6,9 +6,30 @@ defmodule ExTectonicdb.Commands do
   alias ExTectonicdb.Connection, as: C
   @type connection :: pid
   @type db_name :: String.t()
-  @type row :: map
+  @type row :: ExTectonicdb.Dtf.t()
 
   # Public API
+
+  @doc """
+  Add record to current database
+
+  `ADD [ts], [seq], [is_trade], [is_bid], [price], [size];`
+
+  Examples:
+
+  iex> row = %ExTectonicdb.Dtf{timestamp: 1505177459.685, seq: 139010, is_trade: true, is_bid: false, price: 0.0703620, size: 7.65064240}
+  iex> {:ok, conn} = ExTectonicdb.Connection.start_link()
+  iex> ExTectonicdb.Commands.add(conn, row)
+  {:ok, %ExTectonicdb.Dtf{timestamp: 1505177459.685, seq: 139010, is_trade: true, is_bid: false, price: 0.0703620, size: 7.65064240}}
+  """
+  @spec add(connection, row) :: {:ok, row} | {:error, :missing}
+  def add(conn, row) do
+    case C.send_message(conn, "ADD #{row};") do
+      {:ok, ""} -> {:ok, row}
+      {:error, "ERR: No db named" <> _} -> {:error, :missing}
+      e -> e
+    end
+  end
 
   @doc """
   Checks if orderbook exists
