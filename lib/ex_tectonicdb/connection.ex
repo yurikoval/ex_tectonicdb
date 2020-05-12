@@ -43,7 +43,7 @@ defmodule ExTectonicdb.Connection do
   end
 
   def handle_continue(:connect, %{config: config} = state) do
-    Logger.info("Connecting to #{:inet.ntoa(config.host)}:#{config.port}")
+    :ok = Logger.info("Connecting to #{:inet.ntoa(config.host)}:#{config.port}")
 
     case :gen_tcp.connect(config.host, config.port, packet: :raw, active: true) do
       {:ok, socket} ->
@@ -82,7 +82,7 @@ defmodule ExTectonicdb.Connection do
   end
 
   def disconnect(state, reason) do
-    Logger.info("Disconnected: #{reason}")
+    :ok = Logger.info("Disconnected: #{reason}")
     {:stop, :normal, state}
   end
 

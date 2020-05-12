@@ -1,1 +1,3 @@
 lib/ex_tectonicdb/commands.ex
+lib/ex_tectonicdb/connection.ex:46: Call to missing or unexported function 'Elixir.Logger':'__should_log__'/1
+lib/ex_tectonicdb/connection.ex:85: Call to missing or unexported function 'Elixir.Logger':'__should_log__'/1
