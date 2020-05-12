@@ -6,8 +6,10 @@ defmodule ExTectonicdb.MixProject do
       app: :ex_tectonicdb,
       version: "0.1.0",
       elixir: "~> 1.9",
+      package: package(),
       start_permanent: Mix.env() == :prod,
       deps: deps(),
+      description: description(),
       dialyzer: dialyzer()
     ]
   end
@@ -38,5 +40,20 @@ defmodule ExTectonicdb.MixProject do
       plt_add_deps: :transitive,
       ignore_warnings: "dialyzer.ignore-warnings"
     ]
+  end
+
+  defp description do
+    "TectonicDB client library for reading/writing L2 order book data"
+  end
+
+  defp package do
+    %{
+      licenses: ["MIT"],
+      maintainers: ["Yuri Koval'ov"],
+      links: %{
+        "GitHub Source" => "https://github.com/yurikoval/ex_tectonicdb",
+        "TectonicDB" => "https://github.com/0b01/tectonicdb"
+      }
+    }
   end
 end
