@@ -11,6 +11,33 @@ defmodule ExTectonicdb.Commands do
   # Public API
 
   @doc """
+  Checks if orderbook exists
+
+  `EXISTS [orderbook]`
+
+  Examples:
+
+  iex> {:ok, conn} = ExTectonicdb.Connection.start_link()
+  iex> ExTectonicdb.Commands.exists?(conn, "default")
+  {:ok, "default"}
+  iex> ExTectonicdb.Commands.exists?(conn, "new_db")
+  {:error, :missing}
+  """
+  @spec exists?(connection, db_name) :: {:ok, db_name} | {:error, :missing}
+  def exists?(conn, db) do
+    case C.send_message(conn, "EXISTS #{db}") do
+      {:ok, _} ->
+        {:ok, db}
+
+      {:error, "ERR: No db named" <> _} ->
+        {:error, :missing}
+
+      e ->
+        e
+    end
+  end
+
+  @doc """
   `PING`
 
   Examples:
