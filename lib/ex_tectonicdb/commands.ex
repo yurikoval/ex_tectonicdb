@@ -10,12 +10,29 @@ defmodule ExTectonicdb.Commands do
 
   # Public API
 
-  @spec add(connection, list(row)) :: {:ok, {db_name, list(row)}} | {:error, any}
-  def add(conn, rows), do: GenServer.call(conn, :send_msg, [rows])
+  @doc """
+  Switch databases
 
-  @spec insert_into(connection, db_name, list(row)) :: {:ok, {db_name, list(row)}} | {:error, any}
-  def insert_into(conn, db, rows), do: GenServer.call(conn, :send_msg, [db, rows])
+  Examples:
 
-  @spec use(connection, db_name) :: {:ok, db_name} | {:error, any}
-  def use(conn, db), do: GenServer.call(conn, :send_msg, [db])
+  iex> {:ok, conn} = ExTectonicdb.Connection.start_link()
+  iex> ExTectonicdb.Commands.use_db(conn, "default")
+  {:ok, "default"}
+  iex> ExTectonicdb.Commands.use_db(conn, "my-db")
+  {:error, :missing}
+  """
+
+  @spec use_db(connection, db_name) :: {:ok, db_name} | {:error, any}
+  def use_db(conn, db) do
+    case C.send_message(conn, "USE #{db}") do
+      {:ok, "SWITCHED TO orderbook `" <> _} ->
+        {:ok, db}
+
+      {:error, "ERR: No db named" <> _} ->
+        {:error, :missing}
+
+      e ->
+        e
+    end
+  end
 end
