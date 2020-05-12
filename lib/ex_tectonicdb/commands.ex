@@ -32,6 +32,25 @@ defmodule ExTectonicdb.Commands do
   end
 
   @doc """
+  Create database
+
+  `CREATE database`
+
+  Examples:
+
+  iex> {:ok, conn} = ExTectonicdb.Connection.start_link()
+  iex> ExTectonicdb.Commands.create(conn, "my_new_db")
+  {:ok, "my_new_db"}
+  """
+  @spec create(connection, db_name) :: {:ok, db_name} | {:error, :missing}
+  def create(conn, db) do
+    case C.send_message(conn, "CREATE #{db}") do
+      {:ok, _} -> {:ok, db}
+      e -> e
+    end
+  end
+
+  @doc """
   Checks if orderbook exists
 
   `EXISTS [orderbook]`
