@@ -13,7 +13,7 @@ Documentation:
 
 ```elixir
 # open connection
-{:ok, conn} = ExTectonicdb.start_link(host: "localhost", port: 9001)
+{:ok, conn} = ExTectonicdb.start_link(host: {127, 0, 0, 1}, port: 9001)
 
 # switch database
 {:ok, _name} = ExTectonicdb.Commands.use_db(conn, "binance-btc_usdt")
@@ -21,16 +21,10 @@ Documentation:
 # insert row
 # ADD 1505177459.685, 139010, t, f, 0.0703620, 7.65064240;
 row = %ExTectonicdb.Row{timestamp: 1505177459.685, sequence: 139010, is_trade: true, is_bid: false, price: 0.0703620, size: 7.65064240}
-{:ok, {_database, _rows}} = ExTectonicdb.Commands.add(conn, [row])
+{:ok, row} = ExTectonicdb.Commands.add(conn, [row])
 
 # INSERT 1505177459.685, 139010, t, f, 0.0703620, 7.65064240; INTO dbname
-{:ok, {_database, _rows}} = ExTectonicdb.Commands.insert_into(conn, "binance-btc_usdt", [row])
-
-{:ok, _rows} = ExTectonicdb.Commands.get(conn, 5)
-{:ok, _rows} = ExTectonicdb.Commands.get_from(conn, "binance-btc_usdt", 5)
-
-{:ok, _count} = ExTectonicdb.Commands.count(conn)
-
+{:ok, row} = ExTectonicdb.Commands.insert_into(conn, "binance-btc_usdt", [row])
 ```
 
 ## Installation
