@@ -3,7 +3,8 @@ defmodule ExTectonicdb.Commands do
   Execture remote commands and receive results
   """
 
-  alias ExTectonicdb.Connection, as: C
+  alias ExTectonicdb.Connection
+
   @type connection :: pid
   @type db_name :: String.t()
   @type row :: ExTectonicdb.Dtf.t()
@@ -24,7 +25,7 @@ defmodule ExTectonicdb.Commands do
   """
   @spec add(connection, row) :: {:ok, row} | {:error, :db_not_found}
   def add(conn, row) do
-    case C.send_message(conn, "ADD #{row};") do
+    case Connection.send_message(conn, "ADD #{row};") do
       {:ok, ""} -> {:ok, row}
       {:error, "ERR: No db named" <> _} -> {:error, :db_not_found}
       e -> e
@@ -44,7 +45,7 @@ defmodule ExTectonicdb.Commands do
   """
   @spec create(connection, db_name) :: {:ok, db_name} | {:error, :db_not_found}
   def create(conn, db) do
-    case C.send_message(conn, "CREATE #{db}") do
+    case Connection.send_message(conn, "CREATE #{db}") do
       {:ok, _} -> {:ok, db}
       e -> e
     end
@@ -65,7 +66,7 @@ defmodule ExTectonicdb.Commands do
   """
   @spec exists?(connection, db_name) :: {:ok, db_name} | {:error, :db_not_found}
   def exists?(conn, db) do
-    case C.send_message(conn, "EXISTS #{db}") do
+    case Connection.send_message(conn, "EXISTS #{db}") do
       {:ok, _} ->
         {:ok, db}
 
@@ -93,7 +94,7 @@ defmodule ExTectonicdb.Commands do
   """
   @spec insert_into(connection, row, db_name) :: {:ok, row, String.t()} | {:error, :db_not_found}
   def insert_into(conn, row, db) do
-    case C.send_message(conn, "INSERT #{row}; INTO #{db}") do
+    case Connection.send_message(conn, "INSERT #{row}; INTO #{db}") do
       {:ok, ""} -> {:ok, row, db}
       {:error, "ERR: DB" <> _} -> {:error, :db_not_found}
       e -> e
@@ -111,7 +112,7 @@ defmodule ExTectonicdb.Commands do
   """
   @spec ping(connection) :: {:ok, :pong} | {:error, any}
   def ping(conn) do
-    case C.send_message(conn, "PING") do
+    case Connection.send_message(conn, "PING") do
       {:ok, "PONG" <> _} -> {:ok, :pong}
       e -> e
     end
@@ -131,7 +132,7 @@ defmodule ExTectonicdb.Commands do
 
   @spec use_db(connection, db_name) :: {:ok, db_name} | {:error, any}
   def use_db(conn, db) do
-    case C.send_message(conn, "USE #{db}") do
+    case Connection.send_message(conn, "USE #{db}") do
       {:ok, "SWITCHED TO orderbook `" <> _} ->
         {:ok, db}
 
