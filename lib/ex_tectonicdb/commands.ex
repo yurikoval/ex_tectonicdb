@@ -22,11 +22,11 @@ defmodule ExTectonicdb.Commands do
   iex> ExTectonicdb.Commands.add(conn, row)
   {:ok, %ExTectonicdb.Dtf{timestamp: 1505177459.685, seq: 139010, is_trade: true, is_bid: false, price: 0.0703620, size: 7.65064240}}
   """
-  @spec add(connection, row) :: {:ok, row} | {:error, :missing}
+  @spec add(connection, row) :: {:ok, row} | {:error, :db_not_found}
   def add(conn, row) do
     case C.send_message(conn, "ADD #{row};") do
       {:ok, ""} -> {:ok, row}
-      {:error, "ERR: No db named" <> _} -> {:error, :missing}
+      {:error, "ERR: No db named" <> _} -> {:error, :db_not_found}
       e -> e
     end
   end
@@ -42,7 +42,7 @@ defmodule ExTectonicdb.Commands do
   iex> ExTectonicdb.Commands.create(conn, "my_new_db")
   {:ok, "my_new_db"}
   """
-  @spec create(connection, db_name) :: {:ok, db_name} | {:error, :missing}
+  @spec create(connection, db_name) :: {:ok, db_name} | {:error, :db_not_found}
   def create(conn, db) do
     case C.send_message(conn, "CREATE #{db}") do
       {:ok, _} -> {:ok, db}
@@ -61,16 +61,16 @@ defmodule ExTectonicdb.Commands do
   iex> ExTectonicdb.Commands.exists?(conn, "default")
   {:ok, "default"}
   iex> ExTectonicdb.Commands.exists?(conn, "new_db")
-  {:error, :missing}
+  {:error, :db_not_found}
   """
-  @spec exists?(connection, db_name) :: {:ok, db_name} | {:error, :missing}
+  @spec exists?(connection, db_name) :: {:ok, db_name} | {:error, :db_not_found}
   def exists?(conn, db) do
     case C.send_message(conn, "EXISTS #{db}") do
       {:ok, _} ->
         {:ok, db}
 
       {:error, "ERR: No db named" <> _} ->
-        {:error, :missing}
+        {:error, :db_not_found}
 
       e ->
         e
@@ -89,13 +89,13 @@ defmodule ExTectonicdb.Commands do
   iex> ExTectonicdb.Commands.insert_into(conn, row, "default")
   {:ok, %ExTectonicdb.Dtf{timestamp: 1505177459.685, seq: 139010, is_trade: true, is_bid: false, price: 0.0703620, size: 7.65064240}, "default"}
   iex> ExTectonicdb.Commands.insert_into(conn, row, "i-dont-exist")
-  {:error, :missing}
+  {:error, :db_not_found}
   """
-  @spec insert_into(connection, row, db_name) :: {:ok, row, String.t()} | {:error, :missing}
+  @spec insert_into(connection, row, db_name) :: {:ok, row, String.t()} | {:error, :db_not_found}
   def insert_into(conn, row, db) do
     case C.send_message(conn, "INSERT #{row}; INTO #{db}") do
       {:ok, ""} -> {:ok, row, db}
-      {:error, "ERR: DB" <> _} -> {:error, :missing}
+      {:error, "ERR: DB" <> _} -> {:error, :db_not_found}
       e -> e
     end
   end
@@ -126,7 +126,7 @@ defmodule ExTectonicdb.Commands do
   iex> ExTectonicdb.Commands.use_db(conn, "default")
   {:ok, "default"}
   iex> ExTectonicdb.Commands.use_db(conn, "my-db")
-  {:error, :missing}
+  {:error, :db_not_found}
   """
 
   @spec use_db(connection, db_name) :: {:ok, db_name} | {:error, any}
@@ -136,7 +136,7 @@ defmodule ExTectonicdb.Commands do
         {:ok, db}
 
       {:error, "ERR: No db named" <> _} ->
-        {:error, :missing}
+        {:error, :db_not_found}
 
       e ->
         e
