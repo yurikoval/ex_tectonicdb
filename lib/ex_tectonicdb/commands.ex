@@ -3,7 +3,7 @@ defmodule ExTectonicdb.Commands do
   Execture remote commands and receive results
   """
 
-  alias ExTectonicdb.Connection
+  alias ExTectonicdb.{Connection, Info}
 
   @type connection :: pid
   @type db_name :: String.t()
@@ -97,6 +97,17 @@ defmodule ExTectonicdb.Commands do
     case Connection.send_message(conn, "INSERT #{row}; INTO #{db}") do
       {:ok, ""} -> {:ok, row, db}
       {:error, "ERR: DB" <> _} -> {:error, :db_not_found}
+      e -> e
+    end
+  end
+
+  @doc """
+  `INFO`
+  """
+  @spec info(connection) :: {:ok, :pong} | {:error, any}
+  def info(conn) do
+    case Connection.send_message(conn, "INFO") do
+      {:ok, resp} -> resp |> Jason.decode!(keys: :atoms!) |> Info.from_json!()
       e -> e
     end
   end
