@@ -10,7 +10,10 @@ defmodule ExTectonicdb.MixProject do
       start_permanent: Mix.env() == :prod,
       deps: deps(),
       description: description(),
-      dialyzer: dialyzer()
+      dialyzer: dialyzer(),
+      name: "ExTectonicdb",
+      source_url: "https://github.com/yurikoval/ex_tectonicdb",
+      docs: docs()
     ]
   end
 
@@ -57,5 +60,12 @@ defmodule ExTectonicdb.MixProject do
         "TectonicDB" => "https://github.com/0b01/tectonicdb"
       }
     }
+  end
+
+  defp docs do
+    [
+      main: "readme",
+      extras: ["README.md"]
+    ]
   end
 end
