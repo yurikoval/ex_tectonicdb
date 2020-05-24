@@ -4,7 +4,7 @@ defmodule ExTectonicdb.MixProject do
   def project do
     [
       app: :ex_tectonicdb,
-      version: "0.1.0",
+      version: "0.1.1",
       elixir: "~> 1.9",
       package: package(),
       start_permanent: Mix.env() == :prod,
