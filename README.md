@@ -2,7 +2,7 @@
 
 ![Elixir Test](https://github.com/yurikoval/ex_tectonicdb/workflows/Test/badge.svg)
 
-[TectonicDB](https://github.com/0b01/tectonicdb) is a client library for Elixir to read/write L2 order book data
+[TectonicDB](https://github.com/0b01/tectonicdb) client library for Elixir to read/write L2 order book data
 
 Documentation:
 
