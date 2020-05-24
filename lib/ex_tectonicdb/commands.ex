@@ -3,7 +3,7 @@ defmodule ExTectonicdb.Commands do
   Execture remote commands and receive results
   """
 
-  alias ExTectonicdb.{Connection, Info}
+  alias ExTectonicdb.{Connection, Dtf, Info}
 
   @type connection :: pid
   @type db_name :: String.t()
@@ -29,6 +29,46 @@ defmodule ExTectonicdb.Commands do
       {:ok, ""} -> {:ok, row}
       {:error, "ERR: No db named" <> _} -> {:error, :db_not_found}
       e -> e
+    end
+  end
+
+  @doc """
+  Remove records from database
+
+  `CLEAR`
+
+  Examples:
+
+      iex> {:ok, conn} = ExTectonicdb.Connection.start_link()
+      iex> ExTectonicdb.Commands.clear(conn)
+      :ok
+  """
+
+  @spec clear(connection) :: :ok | :error
+  def clear(conn) do
+    case Connection.send_message(conn, "CLEAR") do
+      {:ok, _} -> :ok
+      _ -> :error
+    end
+  end
+
+  @doc """
+  Remove records from all databases
+
+  `CLEAR ALL`
+
+  Examples:
+
+      iex> {:ok, conn} = ExTectonicdb.Connection.start_link()
+      iex> ExTectonicdb.Commands.clear_all(conn)
+      :ok
+  """
+
+  @spec clear_all(connection) :: :ok | :error
+  def clear_all(conn) do
+    case Connection.send_message(conn, "CLEAR ALL") do
+      {:ok, _} -> :ok
+      _ -> :error
     end
   end
 
@@ -75,6 +115,23 @@ defmodule ExTectonicdb.Commands do
 
       e ->
         e
+    end
+  end
+
+  @doc """
+  Retrieve values
+
+  GET ALL AS CSV
+  """
+
+  # @spec get_all(connection) :: {:
+  def get_all(conn) do
+    case Connection.send_message(conn, "GET ALL AS CSV") do
+      {:ok, resp} ->
+        {:ok, resp |> String.split("\n", trim: true) |> Enum.map(&Dtf.from_csv(&1))}
+
+      e ->
+        {:error, e}
     end
   end
 
