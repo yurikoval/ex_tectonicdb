@@ -18,10 +18,10 @@ defmodule ExTectonicdb.Commands do
 
   Examples:
 
-  iex> row = %ExTectonicdb.Dtf{timestamp: 1505177459.685, seq: 139010, is_trade: true, is_bid: false, price: 0.0703620, size: 7.65064240}
-  iex> {:ok, conn} = ExTectonicdb.Connection.start_link()
-  iex> ExTectonicdb.Commands.add(conn, row)
-  {:ok, %ExTectonicdb.Dtf{timestamp: 1505177459.685, seq: 139010, is_trade: true, is_bid: false, price: 0.0703620, size: 7.65064240}}
+      iex> row = %ExTectonicdb.Dtf{timestamp: 1505177459.685, seq: 139010, is_trade: true, is_bid: false, price: 0.0703620, size: 7.65064240}
+      iex> {:ok, conn} = ExTectonicdb.Connection.start_link()
+      iex> ExTectonicdb.Commands.add(conn, row)
+      {:ok, %ExTectonicdb.Dtf{timestamp: 1505177459.685, seq: 139010, is_trade: true, is_bid: false, price: 0.0703620, size: 7.65064240}}
   """
   @spec add(connection, row) :: {:ok, row} | {:error, :db_not_found}
   def add(conn, row) do
@@ -39,9 +39,9 @@ defmodule ExTectonicdb.Commands do
 
   Examples:
 
-  iex> {:ok, conn} = ExTectonicdb.Connection.start_link()
-  iex> ExTectonicdb.Commands.create(conn, "my_new_db")
-  {:ok, "my_new_db"}
+      iex> {:ok, conn} = ExTectonicdb.Connection.start_link()
+      iex> ExTectonicdb.Commands.create(conn, "my_new_db")
+      {:ok, "my_new_db"}
   """
   @spec create(connection, db_name) :: {:ok, db_name} | {:error, :db_not_found}
   def create(conn, db) do
@@ -58,11 +58,11 @@ defmodule ExTectonicdb.Commands do
 
   Examples:
 
-  iex> {:ok, conn} = ExTectonicdb.Connection.start_link()
-  iex> ExTectonicdb.Commands.exists?(conn, "default")
-  {:ok, "default"}
-  iex> ExTectonicdb.Commands.exists?(conn, "new_db")
-  {:error, :db_not_found}
+      iex> {:ok, conn} = ExTectonicdb.Connection.start_link()
+      iex> ExTectonicdb.Commands.exists?(conn, "default")
+      {:ok, "default"}
+      iex> ExTectonicdb.Commands.exists?(conn, "new_db")
+      {:error, :db_not_found}
   """
   @spec exists?(connection, db_name) :: {:ok, db_name} | {:error, :db_not_found}
   def exists?(conn, db) do
@@ -85,12 +85,12 @@ defmodule ExTectonicdb.Commands do
 
   Examples:
 
-  iex> row = %ExTectonicdb.Dtf{timestamp: 1505177459.685, seq: 139010, is_trade: true, is_bid: false, price: 0.0703620, size: 7.65064240}
-  iex> {:ok, conn} = ExTectonicdb.Connection.start_link()
-  iex> ExTectonicdb.Commands.insert_into(conn, row, "default")
-  {:ok, %ExTectonicdb.Dtf{timestamp: 1505177459.685, seq: 139010, is_trade: true, is_bid: false, price: 0.0703620, size: 7.65064240}, "default"}
-  iex> ExTectonicdb.Commands.insert_into(conn, row, "i-dont-exist")
-  {:error, :db_not_found}
+      iex> row = %ExTectonicdb.Dtf{timestamp: 1505177459.685, seq: 139010, is_trade: true, is_bid: false, price: 0.0703620, size: 7.65064240}
+      iex> {:ok, conn} = ExTectonicdb.Connection.start_link()
+      iex> ExTectonicdb.Commands.insert_into(conn, row, "default")
+      {:ok, %ExTectonicdb.Dtf{timestamp: 1505177459.685, seq: 139010, is_trade: true, is_bid: false, price: 0.0703620, size: 7.65064240}, "default"}
+      iex> ExTectonicdb.Commands.insert_into(conn, row, "i-dont-exist")
+      {:error, :db_not_found}
   """
   @spec insert_into(connection, row, db_name) :: {:ok, row, String.t()} | {:error, :db_not_found}
   def insert_into(conn, row, db) do
@@ -117,9 +117,9 @@ defmodule ExTectonicdb.Commands do
 
   Examples:
 
-  iex> {:ok, conn} = ExTectonicdb.Connection.start_link()
-  iex> ExTectonicdb.Commands.ping(conn)
-  {:ok, :pong}
+      iex> {:ok, conn} = ExTectonicdb.Connection.start_link()
+      iex> ExTectonicdb.Commands.ping(conn)
+      {:ok, :pong}
   """
   @spec ping(connection) :: {:ok, :pong} | {:error, any}
   def ping(conn) do
@@ -134,11 +134,11 @@ defmodule ExTectonicdb.Commands do
 
   Examples:
 
-  iex> {:ok, conn} = ExTectonicdb.Connection.start_link()
-  iex> ExTectonicdb.Commands.use_db(conn, "default")
-  {:ok, "default"}
-  iex> ExTectonicdb.Commands.use_db(conn, "my-db")
-  {:error, :db_not_found}
+      iex> {:ok, conn} = ExTectonicdb.Connection.start_link()
+      iex> ExTectonicdb.Commands.use_db(conn, "default")
+      {:ok, "default"}
+      iex> ExTectonicdb.Commands.use_db(conn, "my-db")
+      {:error, :db_not_found}
   """
 
   @spec use_db(connection, db_name) :: {:ok, db_name} | {:error, any}
