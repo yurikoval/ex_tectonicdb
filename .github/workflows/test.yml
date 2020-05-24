@@ -15,14 +15,14 @@ jobs:
 
     strategy:
       matrix:
-        otp: [21.x, 22.x]
+        otp: [21.x, 22.x, 23.x]
         elixir: [1.9.x, 1.10.x]
 
     steps:
       - uses: actions/checkout@v1.0.0
 
       - name: set environment variables
-        uses: allenevans/set-env@v1.0.0
+        uses: allenevans/set-env@v1.1.0
         with:
           CACHE_VERSION: 'Fc2TkIVZ2yVGdEEP'
 
