@@ -3,7 +3,8 @@ defmodule ExTectonicdb.CommandsTest do
   doctest ExTectonicdb.Commands
 
   setup do
-    {:ok, conn} = ExTectonicdb.Connection.start_link()
+    config = %ExTectonicdb.Config{}
+    {:ok, conn} = ExTectonicdb.Connection.start_link(config: config)
     {:ok, [conn: conn]}
   end
 
