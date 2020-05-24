@@ -8,6 +8,7 @@ defmodule ExTectonicdb.Commands do
   @type connection :: pid
   @type db_name :: String.t()
   @type row :: ExTectonicdb.Dtf.t()
+  @type timestamp :: non_neg_integer
 
   # Public API
 
@@ -119,21 +120,48 @@ defmodule ExTectonicdb.Commands do
   end
 
   @doc """
-  Retrieve values
+  Retrieve all entries from database
 
-  GET ALL AS CSV
+  `GET ALL AS CSV`
+
+      {:ok, conn} = ExTectonicdb.Connection.start_link()
+      ExTectonicdb.Commands.get_all(conn)
   """
 
-  # @spec get_all(connection) :: {:
+  @get_format "AS CSV"
+  @spec get_all(connection) :: {:ok, [row]} | {:error, any}
   def get_all(conn) do
-    case Connection.send_message(conn, "GET ALL AS CSV") do
-      {:ok, resp} ->
-        {:ok, resp |> String.split("\n", trim: true) |> Enum.map(&Dtf.from_csv(&1))}
-
-      e ->
-        {:error, e}
-    end
+    conn
+    |> Connection.send_message("GET ALL #{@get_format}")
+    |> parse_get_all()
   end
+
+  @doc """
+  Retrieve all entries from database within range
+
+  `GET ALL FROM [from] TO [to] AS CSV`
+
+      {:ok, conn} = ExTectonicdb.Connection.start_link()
+      ExTectonicdb.Commands.get_all(conn, from: 1505142459, to: 1505177459)
+  """
+
+  @spec get_all(connection, from: timestamp, to: timestamp) :: {:ok, [row]} | {:error, any}
+  def get_all(conn, from: from, to: to) do
+    conn
+    |> Connection.send_message("GET ALL FROM #{from} TO #{to} #{@get_format}")
+    |> parse_get_all()
+  end
+
+  defp parse_get_all({:ok, resp}) do
+    result =
+      resp
+      |> String.split("\n", trim: true)
+      |> Enum.map(&Dtf.from_csv(&1))
+
+    {:ok, result}
+  end
+
+  defp parse_get_all(e), do: {:error, e}
 
   @doc """
   Add record into a database
