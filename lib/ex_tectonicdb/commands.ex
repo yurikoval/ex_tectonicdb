@@ -3,7 +3,7 @@ defmodule ExTectonicdb.Commands do
   Execture remote commands and receive results
   """
 
-  alias ExTectonicdb.{Connection, Info}
+  alias ExTectonicdb.{Connection, Dtf, Info}
 
   @type connection :: pid
   @type db_name :: String.t()
@@ -115,6 +115,23 @@ defmodule ExTectonicdb.Commands do
 
       e ->
         e
+    end
+  end
+
+  @doc """
+  Retrieve values
+
+  GET ALL AS CSV
+  """
+
+  # @spec get_all(connection) :: {:
+  def get_all(conn) do
+    case Connection.send_message(conn, "GET ALL AS CSV") do
+      {:ok, resp} ->
+        {:ok, resp |> String.split("\n", trim: true) |> Enum.map(&Dtf.from_csv(&1))}
+
+      e ->
+        {:error, e}
     end
   end
 
