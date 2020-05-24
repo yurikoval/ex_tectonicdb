@@ -52,4 +52,4 @@ To run tests, you must have `tectonicdb` running for tests to work. This can be 
 
 ## License
 
-`ex_tectonicdb` is released under the [MIT license](./LICENSE.md)
+`ex_tectonicdb` is released under the [MIT license](LICENSE)
