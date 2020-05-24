@@ -2,7 +2,7 @@
 
 ![Elixir Test](https://github.com/yurikoval/ex_tectonicdb/workflows/Test/badge.svg)
 
-[TectonicDB](https://github.com/0b01/tectonicdb) client library for Elixir to read/write L2 order book data
+[TectonicDB](https://github.com/0b01/tectonicdb) is a client library for Elixir to read/write L2 order book data
 
 Documentation:
 
@@ -29,8 +29,7 @@ row = %ExTectonicdb.Row{timestamp: 1505177459.685, sequence: 139010, is_trade: t
 
 ## Installation
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `ex_tectonicdb` to your list of dependencies in `mix.exs`:
+The package can be installed by adding `ex_tectonicdb` to your list of dependencies in `mix.exs`:
 
 ```elixir
 def deps do
@@ -53,4 +52,4 @@ To run tests, you must have `tectonicdb` running for tests to work. This can be 
 
 ## License
 
-`ex_tectonicdb` is released under the [MIT license](LICENSE.md)
+`ex_tectonicdb` is released under the [MIT license](./LICENSE.md)
