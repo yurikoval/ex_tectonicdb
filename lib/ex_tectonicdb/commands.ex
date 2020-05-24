@@ -33,6 +33,46 @@ defmodule ExTectonicdb.Commands do
   end
 
   @doc """
+  Remove records from database
+
+  `CLEAR`
+
+  Examples:
+
+      iex> {:ok, conn} = ExTectonicdb.Connection.start_link()
+      iex> ExTectonicdb.Commands.clear(conn)
+      :ok
+  """
+
+  @spec clear(connection) :: :ok | :error
+  def clear(conn) do
+    case Connection.send_message(conn, "CLEAR") do
+      {:ok, _} -> :ok
+      _ -> :error
+    end
+  end
+
+  @doc """
+  Remove records from all databases
+
+  `CLEAR ALL`
+
+  Examples:
+
+      iex> {:ok, conn} = ExTectonicdb.Connection.start_link()
+      iex> ExTectonicdb.Commands.clear_all(conn)
+      :ok
+  """
+
+  @spec clear_all(connection) :: :ok | :error
+  def clear_all(conn) do
+    case Connection.send_message(conn, "CLEAR ALL") do
+      {:ok, _} -> :ok
+      _ -> :error
+    end
+  end
+
+  @doc """
   Create database
 
   `CREATE database`
