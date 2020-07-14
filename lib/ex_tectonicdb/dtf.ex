@@ -54,6 +54,7 @@ defimpl String.Chars, for: ExTectonicdb.Dtf do
       case Map.get(dtf, r) do
         true -> "t"
         false -> "f"
+        e when is_float(e) and r in ~w(price size)a -> :erlang.float_to_binary(e, decimals: 8)
         e -> e
       end
     end)
