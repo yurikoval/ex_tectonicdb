@@ -1,3 +1,5 @@
+
+
 # ExTectonicdb
 
 ![Elixir Test](https://github.com/yurikoval/ex_tectonicdb/workflows/Test/badge.svg)
@@ -43,7 +45,7 @@ end
 
 To run tests, you must have `tectonicdb` running for tests to work. This can be done either by starting tectonicdb on port `9001` manually or running docker compose:
 
-- `docker-compose up`
+- `docker-compose up -d`
 - Then, run the tests with `mix test`
 
 ## Authors
