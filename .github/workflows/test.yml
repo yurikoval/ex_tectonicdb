@@ -42,4 +42,4 @@ jobs:
       - name: Dialyzer
         run: |
           mix compile --warnings-as-errors
-          mix dialyzer --halt-exit-status
+          mix dialyzer
