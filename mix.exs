@@ -5,7 +5,7 @@ defmodule ExTectonicdb.MixProject do
     [
       app: :ex_tectonicdb,
       version: "0.1.3",
-      elixir: "~> 1.9",
+      elixir: "~> 1.20.4",
       package: package(),
       start_permanent: Mix.env() == :prod,
       deps: deps(),
@@ -38,11 +38,10 @@ defmodule ExTectonicdb.MixProject do
       flags: [
         :unmatched_returns,
         :error_handling,
-        :race_conditions,
         :underspecs,
         :no_opaque
       ],
-      plt_add_deps: :transitive,
+      plt_add_deps: :app_tree,
       ignore_warnings: "dialyzer.ignore-warnings"
     ]
   end

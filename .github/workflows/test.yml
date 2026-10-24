@@ -15,48 +15,21 @@ jobs:
 
     strategy:
       matrix:
-        otp: [22.x, 23.x, 24.x]
-        elixir: [1.11.x, 1.12.x]
+        otp: [29.x]
+        elixir: [1.20.4]
 
     steps:
-      - uses: actions/checkout@v2
-      - uses: erlef/setup-elixir@v1.9
+      - uses: actions/checkout@v7
+      - uses: erlef/setup-beam@v1
         with:
           otp-version: ${{matrix.otp}}
           elixir-version: ${{matrix.elixir}}
-
-      - name: Cache Dependencies
-        uses: actions/cache@v1
-        with:
-          path: deps
-          key: deps-elixir-${{secrets.CACHE_VERSION}}-${{matrix.elixir}}-otp-${{matrix.otp}}-${{runner.os}}-${{hashFiles('mix.lock')}}-${{github.ref}}
-          restore-keys: |
-            deps-elixir-${{secrets.CACHE_VERSION}}-${{matrix.elixir}}-otp-${{matrix.otp}}-${{runner.os}}-${{hashFiles('mix.lock')}}-${{github.ref}}
-            deps-elixir-${{secrets.CACHE_VERSION}}-${{matrix.elixir}}-otp-${{matrix.otp}}-${{runner.os}}-${{hashFiles('mix.lock')}}-
-
-      - name: Cache Dev Build
-        uses: actions/cache@v2
-        with:
-          path: _build/dev
-          key: dev-build-elixir-${{secrets.CACHE_VERSION}}-${{matrix.elixir}}-otp-${{matrix.otp}}-${{runner.os}}-${{hashFiles('mix.lock')}}-${{github.ref}}
-          restore-keys: |
-            dev-build-elixir-${{secrets.CACHE_VERSION}}-${{matrix.elixir}}-otp-${{matrix.otp}}-${{runner.os}}-${{hashFiles('mix.lock')}}-${{github.ref}}
-            dev-build-elixir-${{secrets.CACHE_VERSION}}-${{matrix.elixir}}-otp-${{matrix.otp}}-${{runner.os}}-${{hashFiles('mix.lock')}}-
-
-      - name: Cache Test Build
-        uses: actions/cache@v2
-        with:
-          path: _build/test
-          key: test-build-elixir-${{secrets.CACHE_VERSION}}-${{matrix.elixir}}-otp-${{matrix.otp}}-${{runner.os}}-${{hashFiles('mix.lock')}}-${{github.ref}}
-          restore-keys: |
-            test-build-elixir-${{secrets.CACHE_VERSION}}-${{matrix.elixir}}-otp-${{matrix.otp}}-${{runner.os}}-${{hashFiles('mix.lock')}}-${{github.ref}}
-            test-build-elixir-${{secrets.CACHE_VERSION}}-${{matrix.elixir}}-otp-${{matrix.otp}}-${{runner.os}}-${{hashFiles('mix.lock')}}-
 
       - name: Install Dependencies
         run: mix deps.get
 
       - name: Start Docker
-        run: docker-compose up --detach
+        run: docker compose up --detach
 
       - name: Test
         env:
@@ -69,4 +42,4 @@ jobs:
       - name: Dialyzer
         run: |
           mix compile --warnings-as-errors
-          mix dialyzer --halt-exit-status
+          mix dialyzer
