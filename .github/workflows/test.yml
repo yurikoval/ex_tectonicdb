@@ -29,7 +29,7 @@ jobs:
         run: mix deps.get
 
       - name: Start Docker
-        run: docker-compose up --detach
+        run: docker compose up --detach
 
       - name: Test
         env:
